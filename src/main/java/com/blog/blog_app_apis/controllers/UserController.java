@@ -14,33 +14,31 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-
-    //GET -> get user info
-    //POST -> create user
-    //PUT -> update user
-    //DELETE -> delete user
-
     @Autowired
     private UserService userService;
 
+    //POST -> create user
     @PostMapping("/")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
         UserDto createdUser = this.userService.createUser(userDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
+    //PUT -> update user
     @PutMapping("/{userId}")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,@PathVariable("userId") Integer uid){
         UserDto updatedUser = this.userService.updateUser(userDto, uid);
         return ResponseEntity.ok(updatedUser);
     }
 
+    //DELETE -> delete user
     @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid){
         this.userService.deleteUser(uid);
         return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Succesfully!", true), HttpStatus.OK);
     }
 
+    //GET -> get user info
     @GetMapping("/")
     public ResponseEntity<List<UserDto>> getAllUser(){
         List<UserDto> allUsers = this.userService.getAllUsers();
@@ -48,11 +46,11 @@ public class UserController {
         //return ResponseEntity.ok(this.userService.getAllUsers());
     }
 
+    //GET -> get user info
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getSingleUser(@PathVariable("userId") Integer uid){
         UserDto user = this.userService.getUserById(uid);
         return new ResponseEntity<UserDto>(user, HttpStatus.OK);
-
         //return ResponseEntity.ok(this.userService.getUserById(uid));
     }
 
